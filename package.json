@@ -1,5 +1,5 @@
 {
-  "name": "lama-dev-next-dashboard",
+  "name": "ICFAI-management",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,9 @@
     "@clerk/nextjs": "^5.4.1",
     "@hookform/resolvers": "^3.9.0",
     "@prisma/client": "^5.20.0",
+    "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-icons": "^1.3.0",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@types/react-big-calendar": "^1.8.9",
     "class-variance-authority": "^0.7.0",

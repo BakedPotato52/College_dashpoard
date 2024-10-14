@@ -60,8 +60,8 @@ export default function LoginPage() {
           className="bg-white p-8 rounded-lg shadow-2xl w-96"
         >
           <div className="mb-6 text-center">
-            <Image src="/logo.png" alt="SchooLama Logo" width={48} height={48} className="mx-auto mb-2" />
-            <h1 className="text-2xl font-bold">SchooLama</h1>
+            <Image src="/logo.png" alt="ICFAI Logo" width={48} height={48} className="mx-auto mb-2" />
+            <h1 className="text-2xl font-bold">ICFAI University</h1>
             <h2 className="text-gray-500 text-sm">Sign in to your account</h2>
           </div>
 
