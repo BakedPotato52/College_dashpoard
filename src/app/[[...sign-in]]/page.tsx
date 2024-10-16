@@ -4,20 +4,59 @@ import * as Clerk from "@clerk/elements/common"
 import * as SignIn from "@clerk/elements/sign-in"
 import { useUser } from "@clerk/nextjs"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { useNavigation } from 'react-router-dom'
 
 export default function LoginPage() {
-  const { isLoaded, isSignedIn, user } = useUser();
-
-  const router = useRouter();
+  const { user, isLoaded } = useUser();
+  const router = useNavigation();
+  const [isRouting, setIsRouting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const role = user?.publicMetadata.role;
+    if (isLoaded && user) {
+      const role = user.publicMetadata.role as string | undefined;
+      if (role && !isRouting) {
+        setIsRouting(true);
+        router(`/${role.toLowerCase()}`);
+      } else if (!role) {
+        setError("User role is undefined. Please contact support.");
+        setIsRouting(false);
+      }
+    }
+  }, [user, isLoaded, router, isRouting]);
 
-    router.push(`${role}`);
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
 
-  }, [user, router]);
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-lamaSkyLight">
+        <div className="bg-white p-8 rounded-lg shadow-2xl w-96">
+          <h1 className="text-2xl font-bold text-center mb-4">Error</h1>
+          <p className="text-red-500 text-center">{error}</p>
+          <button
+            onClick={() => router.push('/')}
+            className="mt-4 w-full bg-blue-500 text-white rounded-md text-sm p-[10px]"
+          >
+            Return to Home
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (isRouting) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-lamaSkyLight">
+        <div className="bg-white p-8 rounded-lg shadow-2xl w-96">
+          <h1 className="text-2xl font-bold text-center mb-4">Redirecting...</h1>
+          <div className="loader"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-lamaSkyLight">
@@ -56,7 +95,7 @@ export default function LoginPage() {
           </Clerk.Field>
           <SignIn.Action
             submit
-            className="bg-blue-500 text-white my-1 rounded-md text-sm p-[10px]"
+            className="bg-blue-500 text-white my-1 rounded-md text-sm p-[10px] w-full"
           >
             Sign In
           </SignIn.Action>
